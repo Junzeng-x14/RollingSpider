@@ -24,8 +24,7 @@ and stored at `./linsys1.mat`
 `RollingSpider/Allfiles/MIT_MatlabToolbox/trunk/embcode/rsedu_control.c`
 
 From line 1294
-`
-            // Add position reference tracking
+`           // Add position reference tracking
             waitCycles = calibCycles + takeoffCycles + 350;
 
             if(counter>waitCycles && counter<=waitCycles+refCycles){
@@ -43,6 +42,5 @@ From line 1294
             }else{
             	Drone_Compensator_U_pos_refin[0] = 0;
             	Drone_Compensator_U_pos_refin[1] = 0;
-            }
-`
+            }`
 which illustrates a up-down scenario (we use this to test altitude controller). This part can be replaced by any other codes to generate various trajectories (helix, square, triangle, etc)
