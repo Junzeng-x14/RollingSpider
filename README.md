@@ -25,23 +25,49 @@ and stored at `./linsys1.mat`
 
 From line 1294
 ```           
-            // Add position reference tracking
-            waitCycles = calibCycles + takeoffCycles + 350;
-            if(counter>waitCycles && counter<=waitCycles+refCycles){
-            	Drone_Compensator_U_pos_refin[0] = 0;
-            	Drone_Compensator_U_pos_refin[1] = (counter - waitCycles)/refCycles;
-            }else if((counter>waitCycles+refCycles && counter<=waitCycles+2*refCycles)){
-            	Drone_Compensator_U_pos_refin[0] = (counter - waitCycles - refCycles)/refCycles;
-            	Drone_Compensator_U_pos_refin[1] = 1;
-            }else if((counter>waitCycles+2*refCycles && counter<=waitCycles+3*refCycles)){
-            	Drone_Compensator_U_pos_refin[0] = 1;
-            	Drone_Compensator_U_pos_refin[1] = 1 - (counter - waitCycles - 2*refCycles)/refCycles;
-            }else if((counter>waitCycles+3*refCycles && counter<=waitCycles+4*refCycles)){
-            	Drone_Compensator_U_pos_refin[0] = 1 - (counter - waitCycles - 3*refCycles)/refCycles;
-            	Drone_Compensator_U_pos_refin[1] = 0;
-            }else{
-            	Drone_Compensator_U_pos_refin[0] = 0;
-            	Drone_Compensator_U_pos_refin[1] = 0;
-            }
+// Add position reference tracking
+waitCycles = calibCycles + takeoffCycles + 350;
+if(counter>waitCycles && counter<=waitCycles+refCycles){
+            Drone_Compensator_U_pos_refin[0] = 0;
+            Drone_Compensator_U_pos_refin[1] = (counter - waitCycles)/refCycles;
+}else if((counter>waitCycles+refCycles && counter<=waitCycles+2*refCycles)){
+            Drone_Compensator_U_pos_refin[0] = (counter - waitCycles - refCycles)/refCycles;
+            Drone_Compensator_U_pos_refin[1] = 1;
+}else if((counter>waitCycles+2*refCycles && counter<=waitCycles+3*refCycles)){
+            Drone_Compensator_U_pos_refin[0] = 1;
+            Drone_Compensator_U_pos_refin[1] = 1 - (counter - waitCycles - 2*refCycles)/refCycles;
+}else if((counter>waitCycles+3*refCycles && counter<=waitCycles+4*refCycles)){
+            Drone_Compensator_U_pos_refin[0] = 1 - (counter - waitCycles - 3*refCycles)/refCycles;
+            Drone_Compensator_U_pos_refin[1] = 0;
+}else{
+            Drone_Compensator_U_pos_refin[0] = 0;
+            Drone_Compensator_U_pos_refin[1] = 0;
+}
 ```
 which illustrates a up-down scenario (we use this to test altitude controller). This part can be replaced by any other codes to generate various trajectories (helix, square, triangle, etc)
+
+For example, if we want to implemente the square nominal trajectory, we just need to add hovering waiting cycle
+```
+static int waitCycles = 1000;
+static ini refCycles = 400;
+```
+and adjust the piece-wise function as follow,
+```
+// Add Position Reference tracking
+if (counter > waitCycles && counter <= waitCycles + refCycles){
+            Drone_Compensator_U_pos_refin[0] = 0;
+            Drone_Compensator_U_pos_refin[1] = (counter-waitCycles)/refCycles;
+}
+else if (counter > waitCycles + refCycles && counter <= waitCycles + 2*refCycles){
+            Drone_Compensator_U_pos_refin[0] = (counter-waitCycles-refCycles)/refCycles;
+            Drone_Compensator_U_pos_refin[1] = 1;
+}
+else if (counter > waitCycles + 2*refCycles && counter <= waitCycles + 3*refCycles){
+            Drone_Compensator_U_pos_refin[0] = 1;
+            Drone_Compensator_U_pos_refin[1] = 1 - (counter-waitCycles-2*refCycles)/refCycles;
+}
+else{
+            Drone_Compensator_U_pos_refin[0] = 0;
+            Drone_Compensator_U_pos_refin[1] = 0;
+}
+```
