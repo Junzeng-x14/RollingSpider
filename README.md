@@ -1,7 +1,7 @@
 # Rolling Spider
 
 ## Before reading the code
-This are some problems about compilation. This might comes from the .gitignore or other overwritting functions that I have done during these labs. Please refer my codes as a reference instead of a well-written answer and read the instructions to write your own code.
+This are some problems about compilation. This might comes from the .gitignore or other overwritting functions that I have done during these labs. Please refer my codes as a reference instead of a well-written answer and read the instructions to write your own code. Pull requests are welcome!!
 
 ## Description
 This coursework project is one of key part of ME231B (Experimential Advanced Control Design - Spring 2018). The main framework of this project is based on Rolling Spider software package developed by Parrot <https://github.com/Parrot-Developers/RollingSpiderEdu>, where we can adjust controller, do fancy realtime experiments without too many consideration of the framework. 
